@@ -1,0 +1,10 @@
+{
+  "name": "vncsnapshot-static-build",
+  "version": "1.0.0",
+  "dependencies": [
+    "zlib",
+    "libjpeg-turbo"
+  ],
+  "builtin-baseline": "3426db05b996481ca31e95fff3734cf23e0f51bc"
+}
+

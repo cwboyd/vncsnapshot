@@ -1,0 +1,6 @@
+.vs/
+vcpkg_installed/
+
+# All sub-directories with build directories
+**/Debug
+
