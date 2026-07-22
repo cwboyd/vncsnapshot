@@ -23,7 +23,7 @@ set(SOURCES
     vncauth.c
     sockets.c
     rfbproto.c
-    listen.c
+    listen.c)
 
 set(vncsnapshot_SOURCES
   argsresources.c
