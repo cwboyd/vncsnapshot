@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(vncsnapshot C CXX)  # Enabled CXX to let Visual Studio compile C++ files properly
 
-# Force vcpkg to use the static triplet automatically
-set(VCPKG_TARGET_TRIPLET "x64-windows-static")
-
 # Force fully static runtime linking (/MT instead of /MD)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
