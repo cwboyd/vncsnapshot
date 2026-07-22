@@ -10,20 +10,32 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 
-# Scans for .c, .cpp, and .cxx files anywhere in the directory
-file(GLOB_RECURSE SOURCES
-    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-    "*.c"
-    "*.cpp"
-    "*.cxx"
+# Provide root directory and sub-library paths for include headers
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/rdr
 )
 
-set(SOURCES
-    vncsnapshot.c
-    vncauth.c
-    sockets.c
-    rfbproto.c
-    listen.c)
+
+#
+# Build rdr static lib ...
+#
+
+set(rdr_SOURCES
+    rdr/FdInStream.cxx
+    rdr/FdOutStream.cxx
+    rdr/InStream.cxx
+    rdr/NullOutStream.cxx
+    rdr/ZlibInStream.cxx
+)
+add_library(rdr STATIC ${rdr_SOURCES})
+
+# UsePUBLIC so that rdr can see the vcpkg zlib.h file
+target_link_libraries(rdr PUBLIC ZLIB::ZLIB)
+
+#
+# Build vncsnapshot executable ...
+#
 
 set(vncsnapshot_SOURCES
   argsresources.c
@@ -40,7 +52,11 @@ set(vncsnapshot_SOURCES
   zrle.cxx)
 
 add_executable(vncsnapshot ${vncsnapshot_SOURCES})
-target_link_libraries(vncsnapshot PRIVATE ZLIB::ZLIB JPEG::JPEG ws2_32.lib)
+target_link_libraries(vncsnapshot PRIVATE rdr ZLIB::ZLIB JPEG::JPEG ws2_32.lib)
+
+#
+# Build vncpasswd executable ...
+#
 
 set(vncpasswd_SOURCES d3des.c vncauth.c vncpasswd.c)
 add_executable(vncpasswd ${vncpasswd_SOURCES})
