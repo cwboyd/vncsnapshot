@@ -1,5 +1,11 @@
+# Skip these directories
 .vs/
+build/
+CMakeFiles/
 vcpkg_installed/
+
+# Skip these files
+CMakeCache.txt
 
 # All sub-directories with build directories
 **/Debug
